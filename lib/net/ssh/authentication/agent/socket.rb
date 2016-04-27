@@ -42,9 +42,9 @@ module Net; module SSH; module Authentication
 
     # Instantiates a new agent object, connects to a running SSH agent,
     # negotiates the agent protocol version, and returns the agent object.
-    def self.connect(logger=nil)
+    def self.connect(logger=nil, agent_socket = nil)
       agent = new(logger)
-      agent.connect!
+      agent.connect!(agent_socket)
       agent.negotiate!
       agent
     end
@@ -59,10 +59,11 @@ module Net; module SSH; module Authentication
     # given by the attribute writers. If the agent on the other end of the
     # socket reports that it is an SSH2-compatible agent, this will fail
     # (it only supports the ssh-agent distributed by OpenSSH).
-    def connect!
+    def connect!(agent_socket = nil)
       begin
         debug { "connecting to ssh-agent" }
-        @socket = agent_socket_factory.open(ENV['SSH_AUTH_SOCK'])
+        byebug
+        @socket = agent_socket_factory.open(agent_socket.nil? ? ENV['SSH_AUTH_SOCK'] : agent_socket)
       rescue
         error { "could not connect to ssh-agent" }
         raise AgentNotAvailable, $!.message

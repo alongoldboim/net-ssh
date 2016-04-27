@@ -71,7 +71,7 @@ module Net
       :known_hosts, :global_known_hosts_file, :user_known_hosts_file, :host_key_alias,
       :host_name, :user, :properties, :passphrase, :keys_only, :max_pkt_size,
       :max_win_size, :send_env, :use_agent, :number_of_password_prompts,
-      :append_supported_algorithms, :non_interactive, :password_prompt
+      :append_supported_algorithms, :non_interactive, :password_prompt, :agent_socket
     ]
 
     # The standard means of starting a new SSH connection. When used with a
@@ -194,6 +194,8 @@ module Net
     # * :non_interactive => non interactive applications should set it to true
     #   to prefer failing a password/etc auth methods vs asking for password
     # * :password_prompt => a custom prompt object with ask method. See Net::SSH::Prompt
+    #
+    # * :agent_socket => specify a specific socket that belongs to an agent
     #
     # If +user+ parameter is nil it defaults to USER from ssh_config, or
     # local username
